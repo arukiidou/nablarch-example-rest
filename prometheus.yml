@@ -1,0 +1,11 @@
+global:
+  scrape_interval:     10s
+  evaluation_interval: 10s
+
+otlp:
+  promote_resource_attributes: ["service.name", "url.scheme", "service.version"]
+
+storage:
+  tsdb:
+    # A 10min time window is enough because it can easily absorb retries and network delays.
+    out_of_order_time_window: 10m
