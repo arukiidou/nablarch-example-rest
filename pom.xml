@@ -15,10 +15,18 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <db.adminUser>rest_example</db.adminUser>
-    <db.adminUserPassword>rest_example</db.adminUserPassword>
-    <db.user>rest_example</db.user>
-    <db.password>rest_example</db.password>
+    <db.adminUser>REST_EXAMPLE</db.adminUser>
+    <db.adminUserPassword>REST_EXAMPLE</db.adminUserPassword>
+    <db.user>REST_EXAMPLE</db.user>
+    <db.password>REST_EXAMPLE</db.password>
+    <db.initSchema>PUBLIC</db.initSchema>
+
+    <jdbc.driver.groupId>com.h2database</jdbc.driver.groupId>
+    <jdbc.driver.artifactId>h2</jdbc.driver.artifactId>
+    <jdbc.driver.version>2.2.220</jdbc.driver.version>
+    
+    <jdbc.driver.name>org.h2.Driver</jdbc.driver.name>
+    <jdbc.driver.url>jdbc:h2:./h2/db/rest_example</jdbc.driver.url>
 
   </properties>
 
@@ -32,6 +40,46 @@
           <url>${develop_test_report_url}</url>
         </site>
       </distributionManagement>
+    </profile>
+    <profile>
+      <id>postgres</id>
+      <!-- バックエンドがpostgresの場合★Dialect -->
+      <!-- ./mvnw -P postgres  generate-resources -->
+      <!-- ./mvnw -P postgres  test -->
+      <properties>
+        <env.name>ベース設定_postgres</env.name>
+        <env.dir>postgres</env.dir>
+        <env.classifier>postgres</env.classifier>
+        <webxml.path>src/main/webapp/WEB-INF/web.xml</webxml.path>
+
+        <db.adminUser>rest_example</db.adminUser>
+        <db.adminUserPassword>rest_example</db.adminUserPassword>
+        <db.user>rest_example</db.user>
+        <db.password>rest_example</db.password>
+        <db.initSchema>rest_example</db.initSchema>
+
+        <jdbc.driver.groupId>org.postgresql</jdbc.driver.groupId>
+        <jdbc.driver.artifactId>postgresql</jdbc.driver.artifactId>
+        <jdbc.driver.version>42.7.3</jdbc.driver.version>
+
+        <jdbc.driver.name>org.postgresql.Driver</jdbc.driver.name>
+        <jdbc.driver.url>jdbc:postgresql://localhost:5432/rest_example</jdbc.driver.url>
+      </properties>
+    </profile>
+    <profile>
+      <id>tidb</id>
+      <properties>
+        <db.adminUser>root</db.adminUser>
+        <db.adminUserPassword></db.adminUserPassword>
+        <!-- スキーマ指定不可 -->
+
+        <jdbc.driver.groupId>com.mysql</jdbc.driver.groupId>
+        <jdbc.driver.artifactId>mysql-connector-j</jdbc.driver.artifactId>
+        <jdbc.driver.version>8.4.0</jdbc.driver.version>
+
+        <jdbc.driver.name>com.mysql.cj.jdbc.Driver</jdbc.driver.name>
+        <jdbc.driver.url>jdbc:mysql://localhost:4000/mysql</jdbc.driver.url>
+      </properties>
     </profile>
 
   </profiles>
@@ -139,13 +187,9 @@
     </dependency>
 
     <dependency>
-      <!--★Dialect
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>2.2.220</version> -->
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>42.7.3</version>
+      <groupId>${jdbc.driver.groupId}</groupId>
+      <artifactId>${jdbc.driver.artifactId}</artifactId>
+      <version>${jdbc.driver.version}</version>
       <scope>runtime</scope>
     </dependency>
 
@@ -246,14 +290,14 @@
         <configuration>
           <erdFile>src/main/resources/entity/data-model.edm</erdFile>
 
-          <driver>org.postgresql.Driver</driver>
-          <url>jdbc:postgresql://localhost:5432/rest_example</url>
-
+          <driver>${jdbc.driver.name}</driver>
+          <url>${jdbc.driver.url}</url>
           <adminUser>${db.adminUser}</adminUser>
-          <adminPassword>${db.adminUser}</adminPassword>
+          <adminPassword>${db.adminUserPassword}</adminPassword>
           <user>${db.user}</user>
-          <password>${db.user}</password>
-          <schema>rest_example</schema>
+          <password>${db.password}</password>
+          <!--  MySQLではスキーマを指定することは出来ません。-->
+          <schema>${db.initSchema}</schema>
 
           <rootPackage>com.nablarch.example</rootPackage>
           <entityPackageName>entity</entityPackageName>
@@ -264,13 +308,10 @@
         </configuration>
         <dependencies>
           <dependency>
-            <!--★Dialect
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>2.2.220</version>-->
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.7.3</version>
+            <!--★Dialect -->
+            <groupId>${jdbc.driver.groupId}</groupId>
+            <artifactId>${jdbc.driver.artifactId}</artifactId>
+            <version>${jdbc.driver.version}</version>
             <scope>runtime</scope>
           </dependency>
         </dependencies>
