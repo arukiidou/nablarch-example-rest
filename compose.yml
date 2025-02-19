@@ -1,0 +1,10 @@
+services:
+  pg:
+    image: postgres:16-bookworm
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    environment:
+      - POSTGRES_DB=rest_example
+      - POSTGRES_USER=rest_example
+      - POSTGRES_PASSWORD=rest_example

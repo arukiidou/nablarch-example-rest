@@ -16,7 +16,7 @@
   <!-- DBの接続設定を定義する -->
   <component name="dbInfo" class="nablarch.test.core.db.GenericJdbcDbInfo">
     <property name="dataSource" ref="dataSource"/>
-    <property name="schema" value="PUBLIC"/>
+    <property name="schema" value="rest_example"/>
   </component>
 
   <!-- テスト用HttpServerにJetty12を定義する -->

@@ -128,5 +128,5 @@ Process finished with exit code 0
 3. ブラウザから http://localhost:8082 を開き、以下の情報でH2コンソールにログインしてください。
 x   JDBC URLの{dbファイルのパス}には、`rest_example.mv.db`ファイルの格納ディレクトリまでのパスを指定してください。  
   JDBC URL：jdbc:h2:{dbファイルのパス}/rest_example  
-  ユーザ名：REST_EXAMPLE  
-  パスワード：REST_EXAMPLE
+  ユーザ名：rest_example  
+  パスワード：rest_example
